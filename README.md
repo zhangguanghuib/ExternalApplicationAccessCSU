@@ -9,5 +9,7 @@
    ![image](https://github.com/user-attachments/assets/2e7f6282-af38-411b-b63a-5a8deacb53bf) <br/>
    ![image](https://github.com/user-attachments/assets/af619599-f194-4e58-932a-8a35eb52a625)  <br/>
    ![image](https://github.com/user-attachments/assets/e48384db-1bc1-4130-bc4b-50dc89370c9b)
+2. Create the app registration for the client<br/>
+   ![image](https://github.com/user-attachments/assets/0fd878a9-ae19-4498-81de-31567e583462)<br/>
 
 
