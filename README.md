@@ -244,4 +244,6 @@ private static async Task OverrideCartLinePrice(string cartId, string lineId, de
 
 5. Finally you can see the CSU API returned data to external application: <br/>
 #####  For standard API
-
+![image](https://github.com/user-attachments/assets/f986d284-0ca9-4b47-9571-68d8affc1bba)<br/>
+#####  For custom API
+![image](https://github.com/user-attachments/assets/1c64a58b-5a5c-4ee7-bc59-aed5267595a0)
