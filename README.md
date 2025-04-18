@@ -1,2 +1,1 @@
-# ExternalApplicationAccessCSU
-This repro is to demonstrate how to access the CSU API from external application
+# Call Hardware Station API to export data to Excel or PDF
