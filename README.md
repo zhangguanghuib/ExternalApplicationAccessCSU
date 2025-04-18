@@ -216,8 +216,32 @@ namespace Contoso.Commerce.RetailProxy.Extension
                   OperationParameter.Create("lineId", lineId, false),
                   OperationParameter.Create("newPrice", newPrice, false));
         }
-    }
-    
+    }  
  }
 
 ```
+4. Call the C# proxy from the external application, and then the C# proxy can call CSU Server API finally:<br/>
+```
+private static async Task<Microsoft.Dynamics.Commerce.RetailProxy.PagedResult<Microsoft.Dynamics.Commerce.RetailProxy.Cart>> GetOnlineShoppingCartList()
+{
+   QueryResultSettings querySettings = new QueryResultSettings
+   {
+       Paging = new PagingInfo() { Top = 10, Skip = 0 }
+   };
+
+   ManagerFactory managerFactory = await CreateManagerFactory().ConfigureAwait(false);
+   Contoso.Commerce.RetailProxy.Extension.IStoreOperationsManager storeOperationsManager = managerFactory.GetManager<Contoso.Commerce.RetailProxy.Extension.IStoreOperationsManager>();
+   return await storeOperationsManager.GetOnlineShoppingCartList(querySettings).ConfigureAwait(false);
+}
+
+private static async Task OverrideCartLinePrice(string cartId, string lineId, decimal newPrice)
+{
+   ManagerFactory managerFactory = await CreateManagerFactory().ConfigureAwait(false);
+   Contoso.Commerce.RetailProxy.Extension.IStoreOperationsManager storeOperationsManager = managerFactory.GetManager<Contoso.Commerce.RetailProxy.Extension.IStoreOperationsManager>();
+   await storeOperationsManager.OverrideCartLinePrice(cartId, lineId, newPrice).ConfigureAwait(false);
+}
+```
+
+5. Finally you can see the CSU API returned data to external application: <br/>
+#####  For standard API
+
