@@ -4,7 +4,7 @@
 #### Refer to this Microsoft document though some content out-of-dated: https://learn.microsoft.com/en-us/dynamics365/commerce/dev-itpro/consume-retail-server-api
 
 #### Azure Portal Configuration Steps
-1. Log in to Azure Portal, and go to App Registrations, and <mark>New registration<Mark>, and follow the document <br/>
+1. Log in to Azure Portal, and go to App Registrations, and <mark>New registration<Mark> to create App Registration for Retail Server(CSU), and follow the document <br/>
    ![image](https://github.com/user-attachments/assets/e56d679c-9cd1-446f-8820-26e5aae30dae) <br/>
    ![image](https://github.com/user-attachments/assets/2e7f6282-af38-411b-b63a-5a8deacb53bf) <br/>
    ![image](https://github.com/user-attachments/assets/af619599-f194-4e58-932a-8a35eb52a625)  <br/>
