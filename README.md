@@ -17,6 +17,8 @@
    ![image](https://github.com/user-attachments/assets/591ae3b2-a10e-4614-9ddd-1745d65ccb18)<br/>
    ![image](https://github.com/user-attachments/assets/075b03b6-b588-4aba-9269-6eb43690596a)<br/>
    Copy the Secret Value since it will only shown once.
+4. Config "Commerce Shared Parameters": <br/>
+   ![image](https://github.com/user-attachments/assets/0cf5cd60-3535-4d4a-96e4-54e817c550a8)
 
 
 
