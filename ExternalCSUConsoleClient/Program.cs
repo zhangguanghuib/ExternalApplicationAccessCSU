@@ -33,21 +33,21 @@
             audience = ConfigurationManager.AppSettings["audience"] ?? throw new ArgumentNullException("audience");
         }
 
-        public static async Task<string> GetAuthenticationResult(string clientId, string authority, string clientSecret, string tenantId, string audience)
-        {
-            var confidentialClientApplication = ConfidentialClientApplicationBuilder.
-                Create(clientId)
-                .WithAuthority(authority + tenantId)
-                .WithClientSecret(clientSecret);
-            string[] scopes = new string[] { $"{audience}/.default" };
-            AuthenticationResult authResult = await confidentialClientApplication
-                .Build()
-                .AcquireTokenForClient(scopes)
-                .ExecuteAsync()
-                .ConfigureAwait(false);
+        //public static async Task<string> GetAuthenticationResult(string clientId, string authority, string clientSecret, string tenantId, string audience)
+        //{
+        //    var confidentialClientApplication = ConfidentialClientApplicationBuilder.
+        //        Create(clientId)
+        //        .WithAuthority(authority + tenantId)
+        //        .WithClientSecret(clientSecret);
+        //    string[] scopes = new string[] { $"{audience}/.default" };
+        //    AuthenticationResult authResult = await confidentialClientApplication
+        //        .Build()
+        //        .AcquireTokenForClient(scopes)
+        //        .ExecuteAsync()
+        //        .ConfigureAwait(false);
 
-            return authResult.AccessToken;
-        }
+        //    return authResult.AccessToken;
+        //}
 
         //private static async Task<ManagerFactory> CreateManagerFactory()
         //{
