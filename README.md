@@ -221,7 +221,7 @@ namespace Contoso.Commerce.RetailProxy.Extension
 
 ```
 4. Call the C# proxy from the external application, and then the C# proxy can call CSU Server API finally:<br/>
-```
+```cs
 private static async Task<Microsoft.Dynamics.Commerce.RetailProxy.PagedResult<Microsoft.Dynamics.Commerce.RetailProxy.Cart>> GetOnlineShoppingCartList()
 {
    QueryResultSettings querySettings = new QueryResultSettings
