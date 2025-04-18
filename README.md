@@ -5,3 +5,4 @@
 
 #### Azure Portal Configuration Steps
 1. Log in to Azure Portal, and go to App Registrations, and <mark>New registration<Mark><br/>
+   ![image](https://github.com/user-attachments/assets/e56d679c-9cd1-446f-8820-26e5aae30dae) <br/>
