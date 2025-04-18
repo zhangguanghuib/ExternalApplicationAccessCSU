@@ -19,7 +19,7 @@
    Copy the Secret Value since it will only shown once.
 4. Config "Commerce Shared Parameters": <br/>
    ![image](https://github.com/user-attachments/assets/0cf5cd60-3535-4d4a-96e4-54e817c550a8)
-
+#### External Application configuration:
 5. Create a .net Core Console application, with these configuration<br/>
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -47,4 +47,123 @@
   </appSettings>
 </configuration>
 ```
+6. In the program file of the console application, write the below code to read these values from configuration:
+```cs
+  private static void GetConfiguration()
+  {
+      clientId = ConfigurationManager.AppSettings["aadClientId"] ?? throw new ArgumentNullException("aadClientId");
+      clientSecret = ConfigurationManager.AppSettings["aadClientSecret"] ?? throw new ArgumentNullException("aadClientSecret");
+      aadAuthority = new Uri(ConfigurationManager.AppSettings["aadAuthority"] ?? throw new ArgumentNullException("aadAuthority"));
+      retailServerUrl = new Uri(ConfigurationManager.AppSettings["retailServerUrl"] ?? throw new ArgumentNullException("retailServerUrl"));
+      operatingUnitNumber = ConfigurationManager.AppSettings["operatingUnitNumber"] ?? throw new ArgumentNullException("operatingUnitNumber");
+      resource = ConfigurationManager.AppSettings["resource"] ?? throw new ArgumentNullException("resource");
+
+      // From SA:
+      tenantId = ConfigurationManager.AppSettings["tenantId"] ?? throw new ArgumentNullException("tenantId");
+      authority = ConfigurationManager.AppSettings["authority"] ?? throw new ArgumentNullException("authority");
+      audience = ConfigurationManager.AppSettings["audience"] ?? throw new ArgumentNullException("audience");
+  }
+```
+7. Create the below method to get access token by C# code: <br/>
+```cs
+  private static void GetConfiguration()
+  {
+      clientId = ConfigurationManager.AppSettings["aadClientId"] ?? throw new ArgumentNullException("aadClientId");
+      clientSecret = ConfigurationManager.AppSettings["aadClientSecret"] ?? throw new ArgumentNullException("aadClientSecret");
+      aadAuthority = new Uri(ConfigurationManager.AppSettings["aadAuthority"] ?? throw new ArgumentNullException("aadAuthority"));
+      retailServerUrl = new Uri(ConfigurationManager.AppSettings["retailServerUrl"] ?? throw new ArgumentNullException("retailServerUrl"));
+      operatingUnitNumber = ConfigurationManager.AppSettings["operatingUnitNumber"] ?? throw new ArgumentNullException("operatingUnitNumber");
+      resource = ConfigurationManager.AppSettings["resource"] ?? throw new ArgumentNullException("resource");
+
+      // From SA:
+      tenantId = ConfigurationManager.AppSettings["tenantId"] ?? throw new ArgumentNullException("tenantId");
+      authority = ConfigurationManager.AppSettings["authority"] ?? throw new ArgumentNullException("authority");
+      audience = ConfigurationManager.AppSettings["audience"] ?? throw new ArgumentNullException("audience");
+  }
+```
+8. Create the below method to create the Manager Factory:<br/>
+```cs
+  private static void GetConfiguration()
+  {
+      clientId = ConfigurationManager.AppSettings["aadClientId"] ?? throw new ArgumentNullException("aadClientId");
+      clientSecret = ConfigurationManager.AppSettings["aadClientSecret"] ?? throw new ArgumentNullException("aadClientSecret");
+      aadAuthority = new Uri(ConfigurationManager.AppSettings["aadAuthority"] ?? throw new ArgumentNullException("aadAuthority"));
+      retailServerUrl = new Uri(ConfigurationManager.AppSettings["retailServerUrl"] ?? throw new ArgumentNullException("retailServerUrl"));
+      operatingUnitNumber = ConfigurationManager.AppSettings["operatingUnitNumber"] ?? throw new ArgumentNullException("operatingUnitNumber");
+      resource = ConfigurationManager.AppSettings["resource"] ?? throw new ArgumentNullException("resource");
+
+      // From SA:
+      tenantId = ConfigurationManager.AppSettings["tenantId"] ?? throw new ArgumentNullException("tenantId");
+      authority = ConfigurationManager.AppSettings["authority"] ?? throw new ArgumentNullException("authority");
+      audience = ConfigurationManager.AppSettings["audience"] ?? throw new ArgumentNullException("audience");
+  }
+```
+
+#### For Standard API, we can call it by the below code, the below code shows how to call GetOrderHistory API
+```
+private static async Task<Microsoft.Dynamics.Commerce.RetailProxy.PagedResult<SalesOrder>> GetOrderHistory(string customerId)
+{
+   QueryResultSettings querySettings = new QueryResultSettings
+   {
+       Paging = new PagingInfo() { Top = 10, Skip = 0 }
+   };
+
+   ManagerFactory managerFactory = await CreateManagerFactory().ConfigureAwait(false);
+   ICustomerManager customerManage = managerFactory.GetManager<ICustomerManager>();
+   return await customerManage.GetOrderHistory(customerId, querySettings).ConfigureAwait(false);
+}
+```
+#### For custom API, we can follow the below steps to  call it:<br/>
+1. Create custom API  in Commerce SDK<br/>
+```cs
+ [HttpPost]
+ [Authorization(CommerceRoles.Employee, CommerceRoles.Application)]
+ public async Task<Cart> OverrideCartLinePrice(IEndpointContext context, string cartId, string lineId, decimal newPrice)
+ {
+     if (string.IsNullOrWhiteSpace(cartId))
+     {
+         throw new DataValidationException(DataValidationErrors.Microsoft_Dynamics_Commerce_Runtime_MissingParameter, "The cart identifier are missing.");
+     }
+     // Get the cart
+     CartSearchCriteria cartSearchCriteria = new CartSearchCriteria(cartId);
+     var request = new GetCartRequest(cartSearchCriteria, QueryResultSettings.SingleRecord);
+     var response = await context.ExecuteAsync<GetCartResponse>(request).ConfigureAwait(false);
+     Cart cart = response.Carts.SingleOrDefault();
+     if (cart == null)
+     {
+         throw new DataValidationException(DataValidationErrors.Microsoft_Dynamics_Commerce_Runtime_ObjectNotFound, "The cart is not found.");
+     }
+
+     // Override the price
+     var overrideSalesTransactionLinePriceRequest = new OverrideSalesTransactionLinePriceRequest(cart, lineId, newPrice, CalculationModes.All);
+     var saveCartResponse = await context.ExecuteAsync<SaveCartResponse>(overrideSalesTransactionLinePriceRequest).ConfigureAwait(false);
+
+     return saveCartResponse.Cart;
+ }
+
+ [HttpPost]
+ [Authorization(CommerceRoles.Employee, CommerceRoles.Application)]
+ public async Task<PagedResult<Cart>> GetOnlineShoppingCartList(IEndpointContext context, QueryResultSettings queryResultSettings)
+ {
+     CartSearchCriteria cartSearchCriteria = new CartSearchCriteria();
+     cartSearchCriteria.CartType = CartType.Checkout;
+     cartSearchCriteria.StaffId = "";
+     cartSearchCriteria.IncludeAnonymous = true;
+     cartSearchCriteria.LastModifiedDateTimeFrom = System.DateTime.Now.AddDays(-10);
+     cartSearchCriteria.LastModifiedDateTimeTo = System.DateTime.Now;
+
+     if (cartSearchCriteria == null)
+     {
+         throw new DataValidationException(DataValidationErrors.Microsoft_Dynamics_Commerce_Runtime_MissingParameter, "The cart identifier are missing.");
+     }
+
+     // Get the cart
+     var request = new GetCartRequest(cartSearchCriteria, queryResultSettings);
+     var response = await context.ExecuteAsync<GetCartResponse>(request).ConfigureAwait(false);
+
+     return response.Carts;
+ }
+```
+2. Add the Commerce SDK CRT project to the CSharpProxyGenerator project reference:
+   ![image](https://github.com/user-attachments/assets/464e7d82-285b-45ba-a70a-23d39b8e9d46)
 
