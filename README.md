@@ -11,5 +11,12 @@
    ![image](https://github.com/user-attachments/assets/e48384db-1bc1-4130-bc4b-50dc89370c9b)
 2. Create the app registration for the client<br/>
    ![image](https://github.com/user-attachments/assets/0fd878a9-ae19-4498-81de-31567e583462)<br/>
+   ![image](https://github.com/user-attachments/assets/432c7f55-6c6c-4f71-98a2-95a4d3f6c280)<br/>
+   ![image](https://github.com/user-attachments/assets/b8b54399-1203-4813-9350-aa8c5d9143e9)<br/>
+3. Create client secret:<br/>
+   ![image](https://github.com/user-attachments/assets/591ae3b2-a10e-4614-9ddd-1745d65ccb18)<br/>
+   ![image](https://github.com/user-attachments/assets/075b03b6-b588-4aba-9269-6eb43690596a)<br/>
+   Copy the Secret Value since it will only shown once.
+
 
 
